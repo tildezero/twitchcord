@@ -17,29 +17,12 @@ const tclient = new tmi.Client({
 
 tclient.connect();
 
-const creator = new SlashCreator({
-  applicationID: '835711111751139358',
-  publicKey: process.env.PUBLIC_KEY,
-  token: process.env.DISCORD_TOKEN,
-});
-
-creator
-  .withServer(
-    new GatewayServer(
-      (handler) => dclient.ws.on('INTERACTION_CREATE', handler)
-    )
-  )
-  .registerCommandsIn(path.join(__dirname, 'commands'))
-  .syncCommands();
-
 dclient.once('ready', () => {
 	console.log('discord ready');
 });
 
-module.exports = dclient
 
-const webhookClient = new Discord.WebhookClient(process.env.HOOK_ID, process.env.HOOK_TOKEN);
-
+const webhookClient = new Discord.WebhookClient(process.env.WEBHOOK_ID, process.env.WEBHOOK_TOKEN);
 
 tclient.on('message', (channel, tags, message, self) => {
 	// Ignore echoed messages.
