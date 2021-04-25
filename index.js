@@ -41,12 +41,21 @@ tclient.on('chat', async (channel, tags, message, self) => {
 dclient.on('message', async message => {
 	if (message.author.id == dclient.user.id) return;
   if (message.webhookID) return;
-  if (!message.guild.id === process.env.DISCORD_SERVER_ID && message.channel.id == process.env.DISCORD_CHANNEL_ID) return;
-  tclient.say(process.env.TWITCH_CHANNEL_NAME, `Discord -> ${message.author.tag} | ${message.content}`);
+  if (!message.guild.id === process.env.DISCORD_SERVER_ID) return;
+  if (message.channel.id == process.env.DISCORD_CHANNEL_ID) tclient.say(process.env.TWITCH_CHANNEL_NAME, `Discord -> ${message.author.tag} | ${message.content}`);
 
   if (message.content == "ttv.ping") {
     message.channel.send(`Pong! ${dclient.ws.ping}ms`);
   }
+  
+  if (message.content == "ttv.info" || message.content == "ttv.help") {
+    const embed = new Discord.MessageEmbed()
+      .setTitle("Twitch Bridge Bot info")
+      .setDescription(`Hi! I am an instance of [twitch bridge](https://github.com/zeromomentum121/twitch-bridge). This bot just sends messages from discord to twitch and vice versa
+To use me, just type any message in <#${process.env.DISCORD_CHANNEL_ID}> and it will pop up in twitch chat!`)
+    message.channel.send({embed: embed})
+  }
+
 });
 
 keepAlive();
