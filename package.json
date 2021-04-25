@@ -12,7 +12,6 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "express": "^4.17.1",
-    "slash-create": "^2.1.2",
     "tmi.js": "^1.7.5"
   }
 }
